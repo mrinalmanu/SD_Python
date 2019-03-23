@@ -16,7 +16,7 @@ import os
 
 def script():
     
-    print("Enter the name of protein you want to search or the prositeID")
+    print("Enter the name of protein you want to search or the prositeID e.g. PDOC00335")
     which = input()
     if True == bool(re.search(r"PDOC", which)):
         info = search_prodoc(which)
