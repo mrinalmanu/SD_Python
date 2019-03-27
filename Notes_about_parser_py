@@ -1,0 +1,27 @@
+This one is was only working for:
+
+PDOC00145
+
+(?<=Consensus pattern:)(.*)(?!-Sequence)
+works for some other PDOC id's
+
+How to know if there is a general way of extracting information about the Consensus pattern.
+
+I need to extract everything between Consensus pattern: and -Sequences known
+
+Sample text:
+
+_a C-terminal zinc ribbon domain (see ). As a signature pattern for
+these subunits, we selected the region that contains the zinc finger.
+
+-Consensus pattern: [FY]-C-x-[DEKSTG]-C-[GNK]-[DNSA]-[LIVMHG]-[LIVM]-x(8,14)-
+C-x(1,2)-C
+[The four C's are putative zinc ligands]
+-Sequences known to belong to this class detected by the pattern: ALL.
+-Other sequence(s) detected in Swiss-Prot: NONE.
+-Last update: December 2004 / Pattern and text revised._
+
+____
+
+
+Finally, I switced used a third party tool SMS2 to find the active sites based on text alignment.
