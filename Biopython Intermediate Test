@@ -1,0 +1,80 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Apr 29 22:14:12 2019
+
+Biopython Intermediate Test
+
+@author: manu
+"""
+
+''' Task 1 '''
+
+import pandas as pd
+import seaborn as sns
+
+# reading the dataframe
+data = pd.read_csv('/home/manu/Documents/python_test/algae.csv')
+print(data)
+print(data.mean(axis = 0))
+
+# plotting using seaborn    
+sns.pairplot(data, kind='reg');
+
+''' Task 2 '''
+
+# in python 3 we have to list the results of map
+list(map(lambda x: 'True' if x%3 == 0 else 'False', [1,2,3,4,5,6]))
+
+import traceback
+# infinite iterator and catching the error
+ls = [1,2,3,4]
+
+# while condition if uncommented will result in an infinite loop
+# try except do not seem to work in infinite loops 
+# while True:
+    try: 
+        for elem in ls:
+            print(elem)
+    except:
+         traceback.print_exc()
+
+# It seems like using next() function is a better option
+
+new_ls = iter([1,2,3,4])
+
+try:
+    while True:
+        print(next(new_ls))
+except:
+    traceback.print_exc()
+
+''' Task 3 '''
+
+''' finding intresting facts about 17, 45, 999, 1883 '''
+
+from bs4 import BeautifulSoup
+import requests
+from selenium import webdriver
+driver = webdriver.Chrome()
+# https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/
+
+facts = []
+i =0
+x = [17,45,999,1883]
+size = len(x)
+# Here, we're just importing both Beautiful Soup and the Requests library
+while i < size:
+    page_link = 'http://numbersapi.com/#{}'.format(x[i])
+    driver.get(page_link)
+    intresting_elem = driver.find_element_by_id(id_='result-temporary-text')
+    facts.append(intresting_elem.text)
+    i += 1
+
+'''
+OUTPUT:
+['1883 is an uninteresting number.',
+ '1883 is an uninteresting number.',
+ '17 is the minimum driving age for a car or van in the United Kingdom.',
+ '45 is the sapphire wedding anniversary in years of marriage.']
+'''
+
