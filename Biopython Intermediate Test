@@ -11,70 +11,73 @@ Biopython Intermediate Test
 
 import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 # reading the dataframe
 data = pd.read_csv('/home/manu/Documents/python_test/algae.csv')
 print(data)
-print(data.mean(axis = 0))
+data_z = data.groupby(by = 'genus').mean()
+print(data_z) 
 
 # plotting using seaborn    
-sns.pairplot(data, kind='reg');
+
+sns.set(style="whitegrid")
+ax = sns.catplot(data = data_z, kind = 'bar')
+
 
 ''' Task 2 '''
 
 # in python 3 we have to list the results of map
-list(map(lambda x: 'True' if x%3 == 0 else 'False', [1,2,3,4,5,6]))
-
 import traceback
-# infinite iterator and catching the error
-ls = [1,2,3,4]
 
-# while condition if uncommented will result in an infinite loop
-# try except do not seem to work in infinite loops 
-# while True:
-    try: 
-        for elem in ls:
-            print(elem)
-    except:
+my_iter = map(lambda x: x % 3 == 0, [1,2,3,4,5,6])
+
+while True:
+	try:
+		print(next(my_iter))
+	except:
          traceback.print_exc()
+         break
 
-# It seems like using next() function is a better option
-
-new_ls = iter([1,2,3,4])
-
-try:
-    while True:
-        print(next(new_ls))
-except:
-    traceback.print_exc()
 
 ''' Task 3 '''
 
 ''' finding intresting facts about 17, 45, 999, 1883 '''
 
-from bs4 import BeautifulSoup
-import requests
 from selenium import webdriver
 driver = webdriver.Chrome()
-# https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/
+# https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/\
 
-facts = []
 i =0
 x = [17,45,999,1883]
 size = len(x)
-# Here, we're just importing both Beautiful Soup and the Requests library
+
 while i < size:
-    page_link = 'http://numbersapi.com/#{}'.format(x[i])
+    page_link = 'http://numbersapi.com/{}/math'.format(x[i])
     driver.get(page_link)
-    intresting_elem = driver.find_element_by_id(id_='result-temporary-text')
-    facts.append(intresting_elem.text)
+    r = driver.page_source.split('>')[5]
+    intresting_elem = r.split('<')[0]
+    print(intresting_elem)
+    i += 1
+    
+'''
+17 is known as the Feller number, after the famous mathematician William Feller who taught at Princeton University for many years.
+45 is a triangular number, a hexagonal and 16-gonal number, a Kaprekar number, and a Harshad number.
+999 is a boring number.
+1883 is the number of conjugacy classes of the alternating group A_{28}.
+'''
+
+while i < size:
+    page_link = 'http://numbersapi.com/{}/date'.format(x[i])
+    driver.get(page_link)
+    r = driver.page_source.split('>')[5]
+    intresting_elem = r.split('<')[0]
+    print(intresting_elem)
     i += 1
 
 '''
-OUTPUT:
-['1883 is an uninteresting number.',
- '1883 is an uninteresting number.',
- '17 is the minimum driving age for a car or van in the United Kingdom.',
- '45 is the sapphire wedding anniversary in years of marriage.']
+January 17th is the day in 1899 that the United States takes possession of Wake Island in the Pacific Ocean.
+February 14th is the day in 1835 that the original Quorum of the Twelve Apostles, of The Church of Jesus Christ of Latter-day Saints, is formed in Kirtland, Ohio.
+September 25th is the day in 1868 that the Imperial Russian steam frigate Alexander Neuski is shipwrecked off Jutland while carrying Grand Duke Alexei of Russia.
+February 25th is the day in 1933 that the USS Ranger is launched.
 '''
-
